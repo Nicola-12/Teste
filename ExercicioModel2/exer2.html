@@ -5,13 +5,28 @@
     </head>
     <body>
         <div id="app">
-            <button class="botao" id="btnCriar" onclick="gerarQuadrado()">Gerar Novo</button></button>  
-            <div class="box"></div> 
+            <button class="botao" style="margin: 50;">
+                Me aperta ae Tiu
+            </button>   
         </div>
         <script>
             
-      
-                    function getRandomColor(){
+            var btnElement = document.querySelector('button.botao');
+            var boxElement = document.querySelector('#app');   
+
+            btnElement.onclick = function(){
+                var quadrado = document.createElement('div');
+                quadrado.style.height = '200px';
+                quadrado.style.width = '200px';
+                quadrado.style.margin = '10px';
+                quadrado.style.backgroundColor = '#f00';
+                boxElement.appendChild(quadrado);
+            
+                quadrado.onmouseover = function(){
+                    quadrado.style.backgroundColor = getRandomColor();
+                }
+            }
+                 function getRandomColor(){
                     var letters = "0123456789ABCDEF";
                     var color = "#";
                     for (var i = 0; i < 6; i++) {
@@ -20,6 +35,10 @@
                     return color;
                 }
                    
+  
+            
         </script>
     </body>
 </html>
+            
+      
