@@ -1,54 +1,35 @@
-var listElement = document.querySelector('ul');
+
 var inputElement = document.querySelector('input');
-
-function renderRepositories(repositories) {
-  listElement.innerHTML = "";
-
-  for (repo of repositories) {
-    const textElement = document.createTextNode(repo.name);
-    const liElement = document.createElement('li');
-
-    liElement.appendChild(textElement);
-    listElement.appendChild(liElement);
-  }
-}
-
-function renderLoading(loading) {
-  listElement.innerHTML = "";
-
-  var textElement = document.createTextNode('Carregando...');
-  var loadingElement = document.createElement('li');
-
-  loadingElement.appendChild(textElement);
-  listElement.appendChild(loadingElement);
-}
-
-function renderError(loading) {
-  listElement.innerHTML = "";
-
-  var textElement = document.createTextNode('Erro!');
-  var errorElement = document.createElement('li');
-
-  errorElement.style.color = "#F00";
-
-  errorElement.appendChild(textElement);
-  listElement.appendChild(errorElement);
-}
+var elElement = document.querySelector('ul');
 
 function pegarRepositorio() {
-  var user = inputElement.value;
+    elElement.innerHTML = "";
+    var liElement = document.createElement('li');
+    liElement.innerText = "Carregando...";
 
-  if (!user) return;
+    elElement.appendChild(liElement);
 
-  renderLoading();
+    var input = inputElement.value;
 
-  axios.get('https://api.github.com/users/' + user + '/repos')
-    .then(function (response) {
-      renderRepositories(response.data);
-    })
-    .catch(function () {
-      renderError();
+    axios.get(`https://api.github.com/users/${input}/repos`,{ validateStatus: false }).then(response => {
+        elElement.innerHTML = "";
+        if (response.status === 200) {
+            response.data.forEach(renderRepo)
+        } else {
+
+            console.log("FATAL");
+            var liElement = document.createElement('li');
+            liElement.innerText = "Usuário não encontrado";
+
+            elElement.appendChild(liElement);
+        }
     });
+
 }
 
+function renderRepo(repositorio) {
+    var liElement = document.createElement('li');
+    liElement.innerText = repositorio.name;
 
+    elElement.appendChild(liElement);
+}
