@@ -7,7 +7,7 @@ var minhaPromise = function(){
 
             xhr.onreadystatechange = function(){
             if(xhr.readyState === 4){
-                if(xhr.readyState === 200){
+                if(xhr.status === 200){
                     resolve(JSON.parse(xhr.responseText));
                 }else{
                     reject('Erro na requisição');
